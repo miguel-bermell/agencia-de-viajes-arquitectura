@@ -1,0 +1,18 @@
+<div class="login">
+  <form id="loginForm" #f=ngForm (ngSubmit)="guardarClick(f.value)">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email address</label>
+      <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
+        autocomplete="disabled" [(ngModel)]="email">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" id="password" required minlength="8"
+        autocomplete="disabled" ngModel>
+      <div id="passwordHelp" class="form-text">We'll never share your password with anyone else.</div>
+    </div>
+    <p class="error" *ngIf="error">Usuario / Contraseña no validos</p>
+    <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Submit</button>
+  </form>
+  <div class="image"></div>
+</div>
