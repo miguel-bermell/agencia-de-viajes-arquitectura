@@ -36,9 +36,6 @@
   }
 }
 
-:host {
-}
-
 fieldset {
   padding: 20px;
   margin: 20px;
@@ -133,13 +130,10 @@ span {
     margin-top: 5px;
   }
 }
-table {
+.my-table {
   border: 1px solid grey;
   border-collapse: collapse;
   width: 100%;
-
-  thead {
-  }
 
   th {
     text-align: left;
@@ -177,16 +171,13 @@ table {
   &.right {
     text-align: right;
   }
+  margin: 2rem 0;
 
   .en-oferta {
     // background-color: rgba(247, 133, 133, 0.315);
     color: rgb(98, 16, 16);
     font-weight: bold;
   }
-}
-
-table {
-  margin: 2rem 0;
 }
 
 .back {
@@ -198,5 +189,11 @@ table {
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// html,
+// body {
+//   height: 100%;
+// }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

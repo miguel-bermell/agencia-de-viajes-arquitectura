@@ -1,5 +1,5 @@
 <app-header *ngIf="isLogged()" (cerrarSesion)="cerrarSesion()"></app-header>
-<div class="container">
+<div class="container main">
   <router-outlet class="m-3"></router-outlet>
 </div>
 <app-loader *ngIf="loading"></app-loader>

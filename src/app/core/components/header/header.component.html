@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid ">
     <a class="navbar-brand" [routerLink]="['']" routerLinkActive="active">Agencia de Viajes Poseidón</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -26,4 +26,29 @@
       </li>
     </div>
   </div>
-</nav>
+</nav> -->
+
+
+<p>
+  <mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="home" [routerLink]="['']">Agencia de Viajes</span>
+    <span class="example-spacer"></span>
+    <div>
+      <a mat-button [routerLink]="['/viajes']" routerLinkActive="active">Viajes</a>
+      <a mat-button [routerLink]="['/viajes/editar']" routerLinkActive="active">Crear Viaje</a>
+      <a mat-button [routerLink]="['/clientes']" routerLinkActive="active">Clientes</a>
+      <a mat-button [routerLink]="['/clientes/editar']" routerLinkActive="active">Nuevo Cliente</a>
+    </div>
+    <span class="example-spacer"></span>
+    <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button> -->
+    <button mat-icon-button class="example-icon logout" (click)="logOut()"
+      aria-label="Example icon-button with heart icon">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+</p>

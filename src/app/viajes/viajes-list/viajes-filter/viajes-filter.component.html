@@ -1,29 +1,36 @@
-<form [formGroup]="filterForm" (ngSubmit)="searchClick(filterForm)">
-  <fieldset>
-    <legend>
-      <h1> Filtrar Viajes</h1>
-    </legend>
-    <div class="flex-row">
-      <div class="field-element">
-        <label for="">Nombre: </label>
-        <input id="" type="text" formControlName="nombre">
-      </div>
-      <div class="field-element">
-        <label for="">Destino: </label>
-        <input id="" type="text" formControlName="destino">
-      </div>
-      <div class="field-element">
-        <label for="">Tipo de Viaje: </label>
-        <select id="" formControlName="tipoDeViajeId">
-          <!-- <option [ngValue]=""></option> -->
-          <option *ngFor="let item of tiposDeViaje" [ngValue]="item.id">{{item.nombre}}</option>
-        </select>
-      </div>
-    </div>
-    <div class="row-buttons">
-      <button class="btn btn-primary" type="submit">Buscar</button>
-      <button class="btn btn-secondary" type="button" (click)="limpiarFiltro()">Limpiar filtro</button>
-    </div>
-  </fieldset>
+<mat-card class="example-card mb-3">
+  <mat-card-header>
+    <mat-card-title>Filtrar Viajes</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="filterForm" (ngSubmit)="searchClick(filterForm)">
 
-</form>
+      <div fxLayout="row" fxLayoutGap="20px">
+
+        <mat-form-field appearance="legacy" fxFlex="1 1 300px">
+          <mat-label>Nombre</mat-label>
+          <input type="text" matInput formControlName="nombre">
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy" fxFlex="1 1 300px">
+          <mat-label>Destino</mat-label>
+          <input type="text" matInput formControlName="destino">
+        </mat-form-field>
+
+
+        <mat-form-field appearance="legacy" fxFlex="1 1 300px">
+          <mat-label>Tipo de viaje</mat-label>
+          <mat-select formControlName="tipoDeViajeId">
+            <mat-option *ngFor="let item of tiposDeViaje" [value]="item.id">{{item.nombre}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+      <div class="row-buttons">
+        <button mat-stroked-button color="primary" type="submit">Buscar</button>
+        <button mat-stroked-button color="accent" type="button" (click)="limpiarFiltro()">Limpiar filtro</button>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>

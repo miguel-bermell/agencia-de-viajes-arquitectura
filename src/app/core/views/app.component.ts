@@ -25,6 +25,12 @@ export class AppComponent implements OnInit {
     //     this.isLoggedIn = ev?.url.toLowerCase().includes('login');
     //   });
   }
+
+  private tokenExpired(token: string) {
+    const expiry = JSON.parse(atob(token.split('.')[1])).exp;
+    return Math.floor(new Date().getTime() / 1000) >= expiry;
+  }
+
   ngOnInit(): void {
     this.loaderService.loading.pipe(delay(0)).subscribe((x) => {
       this.loading = x;

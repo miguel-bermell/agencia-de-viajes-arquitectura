@@ -1,7 +1,3 @@
-a {
-  cursor: pointer;
-}
-
 .nav-link.active {
   font-weight: 600;
 }
@@ -9,4 +5,16 @@ a {
 .logout {
   list-style: none;
   font-size: 20px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.home {
+  cursor: pointer;
+}
+
+.mat-button:hover {
+  color: #fff;
 }
