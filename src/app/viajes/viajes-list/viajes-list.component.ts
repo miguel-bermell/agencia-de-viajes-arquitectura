@@ -10,8 +10,8 @@ import { ViajesModelService } from '../services/viajes-model.service';
 import { ViajesGridResult } from '../models/viajes-grid-result';
 import { GridEvent } from '../models/grid-event';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
-import { ConfirmationService } from 'src/app/shared/confirmation-modal/confirmation.service';
+import { ConfirmationModalComponent } from 'src/app/shared/modals/confirmation-modal/confirmation-modal.component';
+import { ConfirmationService } from 'src/app/shared/modals/confirmation.service';
 
 @Component({
   selector: 'app-viajes-list',

@@ -13,10 +13,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
-import { ConfirmationService } from './confirmation-modal/confirmation.service';
-import { AlertModalComponent } from './alert-modal/alert-modal.component';
-import { ConfirmationAlertService } from './alert-modal/confirmation-alert.service';
+import { ConfirmationModalComponent } from './modals/confirmation-modal/confirmation-modal.component';
+import { ConfirmationService } from './modals/confirmation.service';
+import { AlertModalComponent } from './modals/alert-modal/alert-modal.component';
+
 @NgModule({
   declarations: [ConfirmationModalComponent, AlertModalComponent],
   imports: [
@@ -50,6 +50,6 @@ import { ConfirmationAlertService } from './alert-modal/confirmation-alert.servi
     MatIconModule,
     MatPaginatorModule,
   ],
-  providers: [ConfirmationService, ConfirmationAlertService],
+  providers: [ConfirmationService],
 })
 export class SharedModule {}

@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { ConfirmationAlertService } from 'src/app/shared/alert-modal/confirmation-alert.service';
+
 import { ClienteList } from '../models/cliente-list-item';
 import { ClientesService } from '../services/clientes.service';
 
@@ -23,17 +23,13 @@ export class ClientesListComponent implements OnInit, AfterViewInit {
   ];
   @ViewChild(MatPaginator) paginator?: MatPaginator;
 
-  constructor(
-    private clientesModel: ClientesService,
-    private router: Router,
-    private alertService: ConfirmationAlertService
-  ) {}
+  constructor(private clientesModel: ClientesService, private router: Router) {}
 
   ngOnInit(): void {
     this.clientesModel.getAll().subscribe((clientes) => {
       console.log(clientes);
-      this.clientes = clientes;
-      this.dataSource.data = [...this.clientes];
+      // this.clientes = clientes;
+      this.dataSource.data = [...clientes];
     });
   }
 

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { formatFecha } from 'src/app/core/utils/dates-helpers';
-import { ConfirmationAlertService } from 'src/app/shared/alert-modal/confirmation-alert.service';
+
+import { ConfirmationService } from 'src/app/shared/modals/confirmation.service';
 import { Cliente } from '../models/cliente';
 import { EstadoCivil } from '../models/enums/estado-civil.enum';
 import { ClientesService } from '../services/clientes.service';
@@ -26,7 +27,7 @@ export class ClientesEditComponent implements OnInit {
     private clientesModel: ClientesService,
     route: ActivatedRoute,
     private router: Router,
-    private alertService: ConfirmationAlertService
+    private alertService: ConfirmationService
   ) {
     route.params.subscribe((params) => {
       //Ruta del navegador para ver si tenemos parametro ID en la ruta
@@ -70,7 +71,7 @@ export class ClientesEditComponent implements OnInit {
 
     if (form.valid) {
       this.alertService
-        .confirmar({
+        .alert({
           contenido: 'Cliente Editado',
           aceptar: 'Aceptar',
         })

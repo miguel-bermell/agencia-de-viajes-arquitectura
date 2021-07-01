@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmationService } from '../shared/modals/confirmation.service';
 
 @Component({
   selector: 'app-admin',
@@ -6,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
-  constructor() {}
+  constructor(private confirmationService: ConfirmationService) {}
 
   ngOnInit(): void {
-    alert('Estas en el area de administración');
+    this.confirmationService.alert({
+      contenido: 'Estas accediendo a un area restringida',
+      aceptar: 'Confirmar',
+    });
   }
 }
