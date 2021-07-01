@@ -7,6 +7,10 @@ import { ViajesFilter } from '../models/viajes-filter';
 import { IdValor } from '../../models/id-valor';
 import { TipoDeViajeModelService } from '../services/tipoDeViaje-model.service';
 import { ViajesModelService } from '../services/viajes-model.service';
+import { ViajesGridResult } from '../models/viajes-grid-result';
+import { GridEvent } from '../models/grid-event';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-viajes-list',
@@ -14,13 +18,16 @@ import { ViajesModelService } from '../services/viajes-model.service';
   styleUrls: ['./viajes-list.component.scss'],
 })
 export class ViajesListComponent implements OnInit {
-  viajes: Viaje[] = [];
+  viajes: ViajesGridResult = new ViajesGridResult();
   tipoDeViaje: tipoDeViajeModel[] = [];
   mostrarTarjetas = false;
+
+  filtro: ViajesFilter | null = null;
 
   constructor(
     private viajesModel: ViajesModelService,
     private tiposDeViajeModel: TipoDeViajeModelService,
+    private dialog: MatDialog,
     private router: Router
   ) {}
 
@@ -38,6 +45,7 @@ export class ViajesListComponent implements OnInit {
 
   searchClick(filtro: ViajesFilter): void {
     if (filtro) {
+      this.filtro = filtro;
       this.viajesModel.buscar(filtro).subscribe((result) => {
         this.viajes = result;
       });
@@ -45,13 +53,25 @@ export class ViajesListComponent implements OnInit {
   }
 
   eliminarClick(id: string): void {
-    if (id && confirm('Estas seguro que deseas eliminar el viaje?')) {
-      this.viajesModel.eliminar(id).subscribe((result) => {
-        if (result) {
-          this.cargarViajes();
+    this.dialog
+      .open(ConfirmationModalComponent, {
+        data: {
+          titulo: 'Eliminar Viaje',
+          pregunta: '¿Seguro que quieres eliminar el viaje?',
+          opcionSi: 'Eliminar',
+          opcionNo: 'Cancelar',
+        },
+      })
+      .afterClosed()
+      .subscribe((x) => {
+        if (x) {
+          this.viajesModel.eliminar(id).subscribe((result) => {
+            if (result) {
+              this.cargarViajes();
+            }
+          });
         }
       });
-    }
   }
 
   editarClick(id: string): void {
@@ -63,6 +83,14 @@ export class ViajesListComponent implements OnInit {
   private cargarViajes() {
     this.viajesModel.getViajes().subscribe((result) => {
       this.viajes = result;
+    });
+  }
+
+  paging(ev: GridEvent): void {
+    this.viajesModel.buscar(this.filtro, ev).subscribe((result) => {
+      if (result) {
+        this.viajes = result;
+      }
     });
   }
 }
