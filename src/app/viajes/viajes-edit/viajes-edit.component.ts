@@ -23,6 +23,7 @@ import { IdValor } from '../../models/id-valor';
 import { TipoDeViajeModelService } from '../services/tipoDeViaje-model.service';
 import { ViajesModelService } from '../services/viajes-model.service';
 import { TipoDeViajePipe } from '../tipo-de-viaje.pipe';
+import { ToastMessagesService } from 'src/app/core/services/toast-messages.service';
 
 @Component({
   selector: 'app-viajes-edit',
@@ -43,7 +44,8 @@ export class ViajesEditComponent implements OnInit {
     private viajesModel: ViajesModelService,
     private tiposDeViajeModel: TipoDeViajeModelService,
     route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastMessages: ToastMessagesService
   ) {
     route.params.subscribe((params) => {
       this.id = params.id || '';
@@ -116,6 +118,7 @@ export class ViajesEditComponent implements OnInit {
       }
 
       this.viajesModel.guardar(viaje).subscribe((x) => {
+        this.toastMessages.showSuccess('Viaje guardado');
         this.router.navigate(['viajes']);
       });
 

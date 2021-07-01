@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { ConfirmationAlertService } from 'src/app/shared/alert-modal/confirmation-alert.service';
 import { ClienteList } from '../models/cliente-list-item';
 import { ClientesService } from '../services/clientes.service';
 
@@ -8,15 +11,36 @@ import { ClientesService } from '../services/clientes.service';
   templateUrl: './clientes-list.component.html',
   styleUrls: ['./clientes-list.component.scss'],
 })
-export class ClientesListComponent implements OnInit {
+export class ClientesListComponent implements OnInit, AfterViewInit {
   clientes: ClienteList[] = [];
-  constructor(private clientesModel: ClientesService, private router: Router) {}
+  dataSource = new MatTableDataSource<ClienteList>([]);
+  displayedColumns: string[] = [
+    'nombre',
+    'dni',
+    'telefono',
+    'estadoCivilDesc',
+    'actions',
+  ];
+  @ViewChild(MatPaginator) paginator?: MatPaginator;
+
+  constructor(
+    private clientesModel: ClientesService,
+    private router: Router,
+    private alertService: ConfirmationAlertService
+  ) {}
 
   ngOnInit(): void {
     this.clientesModel.getAll().subscribe((clientes) => {
       console.log(clientes);
       this.clientes = clientes;
+      this.dataSource.data = [...this.clientes];
     });
+  }
+
+  ngAfterViewInit() {
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
   }
 
   editarClick(id: string) {
@@ -38,7 +62,7 @@ export class ClientesListComponent implements OnInit {
 
   private cargarClientes() {
     this.clientesModel.getAll().subscribe((result) => {
-      this.clientes = result;
+      this.dataSource.data = result;
     });
   }
 }

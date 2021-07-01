@@ -34,7 +34,7 @@ export class Viaje {
     this.plazas = item?.plazas ?? 0;
     this.precio = item?.precio ?? null;
     this.enOferta = item?.enOferta ?? false;
-    this.estado = item?.estado ?? null;
+    this.estado = item?.estado ?? 1;
     this.fechaSalida = item?.fechaSalida ? new Date(item.fechaSalida) : null;
   }
 }

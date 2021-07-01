@@ -35,4 +35,21 @@ export class LoginModelService {
         })
       );
   }
+
+  refresh(refresh: any): Observable<any> {
+    return this.http
+      .post<Usuario>(this.URL, { refresh }, { observe: 'response' })
+      .pipe(
+        map((u) => {
+          return new Usuario(u.body);
+        }),
+        catchError((e: HttpErrorResponse) => {
+          if (e.status === HttpStatusCode.InternalServerError) {
+            console.log('La api ha muerto');
+          }
+          console.log(e.message);
+          return of(null);
+        })
+      );
+  }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { formatFecha } from 'src/app/core/utils/dates-helpers';
+import { ConfirmationAlertService } from 'src/app/shared/alert-modal/confirmation-alert.service';
 import { Cliente } from '../models/cliente';
 import { EstadoCivil } from '../models/enums/estado-civil.enum';
 import { ClientesService } from '../services/clientes.service';
@@ -24,7 +25,8 @@ export class ClientesEditComponent implements OnInit {
     fb: FormBuilder,
     private clientesModel: ClientesService,
     route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private alertService: ConfirmationAlertService
   ) {
     route.params.subscribe((params) => {
       //Ruta del navegador para ver si tenemos parametro ID en la ruta
@@ -67,16 +69,25 @@ export class ClientesEditComponent implements OnInit {
     this.submited = true;
 
     if (form.valid) {
-      const cliente: Cliente = form.value;
+      this.alertService
+        .confirmar({
+          contenido: 'Cliente Editado',
+          aceptar: 'Aceptar',
+        })
+        .subscribe((x) => {
+          if (x) {
+            const cliente: Cliente = form.value;
 
-      if (cliente.fechaNacimiento) {
-        cliente.fechaNacimiento = new Date(cliente.fechaNacimiento);
-      }
+            if (cliente.fechaNacimiento) {
+              cliente.fechaNacimiento = new Date(cliente.fechaNacimiento);
+            }
 
-      this.clientesModel.save(cliente).subscribe((x) => {
-        this.router.navigate(['clientes']);
-      });
-      this.resetForm();
+            this.clientesModel.save(cliente).subscribe((x) => {
+              this.router.navigate(['clientes']);
+            });
+            this.resetForm();
+          }
+        });
     }
   }
 

@@ -9,9 +9,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
+import { ConfirmationService } from './confirmation-modal/confirmation.service';
+import { AlertModalComponent } from './alert-modal/alert-modal.component';
+import { ConfirmationAlertService } from './alert-modal/confirmation-alert.service';
 @NgModule({
-  declarations: [],
+  declarations: [ConfirmationModalComponent, AlertModalComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -23,6 +30,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     FlexLayoutModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTableModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatDialogModule,
   ],
   exports: [
     CommonModule,
@@ -35,6 +46,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     FlexLayoutModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTableModule,
+    MatIconModule,
+    MatPaginatorModule,
   ],
+  providers: [ConfirmationService, ConfirmationAlertService],
 })
 export class SharedModule {}

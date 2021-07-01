@@ -11,6 +11,7 @@ import { ViajesGridResult } from '../models/viajes-grid-result';
 import { GridEvent } from '../models/grid-event';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from 'src/app/shared/confirmation-modal/confirmation-modal.component';
+import { ConfirmationService } from 'src/app/shared/confirmation-modal/confirmation.service';
 
 @Component({
   selector: 'app-viajes-list',
@@ -27,7 +28,7 @@ export class ViajesListComponent implements OnInit {
   constructor(
     private viajesModel: ViajesModelService,
     private tiposDeViajeModel: TipoDeViajeModelService,
-    private dialog: MatDialog,
+    private confirmationService: ConfirmationService,
     private router: Router
   ) {}
 
@@ -53,25 +54,24 @@ export class ViajesListComponent implements OnInit {
   }
 
   eliminarClick(id: string): void {
-    this.dialog
-      .open(ConfirmationModalComponent, {
-        data: {
+    if (id) {
+      this.confirmationService
+        .confirmar({
           titulo: 'Eliminar Viaje',
           pregunta: '¿Seguro que quieres eliminar el viaje?',
           opcionSi: 'Eliminar',
           opcionNo: 'Cancelar',
-        },
-      })
-      .afterClosed()
-      .subscribe((x) => {
-        if (x) {
-          this.viajesModel.eliminar(id).subscribe((result) => {
-            if (result) {
-              this.cargarViajes();
-            }
-          });
-        }
-      });
+        })
+        .subscribe((x) => {
+          if (x) {
+            this.viajesModel.eliminar(id).subscribe((result) => {
+              if (result) {
+                this.cargarViajes();
+              }
+            });
+          }
+        });
+    }
   }
 
   editarClick(id: string): void {

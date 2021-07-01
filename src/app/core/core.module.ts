@@ -1,6 +1,10 @@
 import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClientModule,
+  HttpErrorResponse,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { HttpAuthInterceptor } from './services/http-auth.interceptor';
 import { HeaderComponent } from './components/header/header.component';
 import { AppComponent } from './views/app.component';
@@ -16,6 +20,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar/';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { HotToastModule } from '@ngneat/hot-toast';
+import { HttpErrorInterceptor } from './services/http-error.interceptor';
+
 registerLocaleData(es);
 
 @NgModule({
@@ -36,10 +43,12 @@ registerLocaleData(es);
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
+    HotToastModule.forRoot(),
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,

@@ -1,10 +1,17 @@
-import { HttpClient, HttpStatusCode } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpStatusCode,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Viaje } from '../models/viaje';
 import { IdValor } from '../../models/id-valor';
 import { map } from 'rxjs/operators';
 import { ViajesFilter } from '../models/viajes-filter';
+import { GridEvent } from '../models/grid-event';
+import { ViajesGridResult } from '../models/viajes-grid-result';
 
 export interface ViajeDelete {
   deleted: boolean;
@@ -29,10 +36,18 @@ export class ViajesModelService {
 
   constructor(private http: HttpClient) {}
 
-  getViajes(): Observable<Viaje[]> {
+  getViajes(): Observable<ViajesGridResult> {
+    // const headers = new HttpHeaders({
+    //   Pepito: `Mi nombre es pepito`,
+    // });
+
+    let params = new HttpParams();
+    params = params.set('page', 1);
+    params = params.set('pageSize', 5);
+
     return this.http
-      .get<Viaje[]>(`${this.url}/viajes`)
-      .pipe(map((x) => x.map((v) => new Viaje(v))));
+      .get<ViajesGridResult>(`${this.url}/viajes`, { params })
+      .pipe(map((x) => new ViajesGridResult(x)));
 
     // return [...this.viajes];
   }
@@ -81,27 +96,58 @@ export class ViajesModelService {
     return of(null);
   }
 
-  buscar(filtro: ViajesFilter): Observable<Viaje[]> {
-    const { nombre, destino, tipoDeViajeId } = filtro;
+  buscar(
+    filtro: ViajesFilter | null,
+    ev: GridEvent = { page: 1, pageSize: 5 }
+  ): Observable<ViajesGridResult> {
+    //#region samples
 
-    // const params = `tipoDeViajeId=${tipoDeViajeId}&nombre=${nombre}&destino=${destino}`;
-    let params = '';
+    // let params = '';
 
-    if (filtro?.tipoDeViajeId) {
-      params = `tipoDeViajeId=${tipoDeViajeId}`;
+    // if (filtro?.tipoDeViajeId) {
+    //   params = `tipoDeViajeId=${tipoDeViajeId}`;
+    // }
+
+    // if (filtro?.nombre) {
+    //   params = params ? `${params}&nombre=${nombre}` : `nombre=${nombre}`;
+    // }
+
+    // if (filtro?.destino) {
+    //   params = params ? `${params}&destino=${destino}` : `destino=${destino}`;
+    // }
+
+    // return this.http.get<Viaje[]>(`${this.url}/viajes/search?${params}`).pipe(
+    //   map(x => x.map(v => new Viaje(v)))
+    // );
+
+    //#endregion
+
+    let httpP = new HttpParams();
+
+    if (filtro) {
+      const { nombre, destino, tipoDeViajeId } = filtro;
+
+      if (filtro?.tipoDeViajeId) {
+        httpP = httpP.set('tipoDeViajeId', tipoDeViajeId);
+      }
+
+      if (filtro?.nombre) {
+        httpP = httpP.set('nombre', nombre);
+      }
+
+      if (filtro?.destino) {
+        httpP = httpP.set('destino', destino);
+      }
     }
 
-    if (filtro?.nombre) {
-      params = params ? `${params}&nombre=${nombre}` : `nombre=${nombre}`;
-    }
-
-    if (filtro?.destino) {
-      params = params ? `${params}&destino=${destino}` : `destino=${destino}`;
+    if (ev.page && ev.pageSize) {
+      httpP = httpP.set('page', ev.page);
+      httpP = httpP.set('pageSize', ev.pageSize);
     }
 
     return this.http
-      .get<Viaje[] | []>(`${this.url}/viajes/search?${params}`)
-      .pipe(map((x) => x.map((v: Viaje) => new Viaje(v))));
+      .get<ViajesGridResult>(`${this.url}/viajes/search`, { params: httpP })
+      .pipe(map((x) => new ViajesGridResult(x)));
   }
 
   // getTiposDeViajes(): IdValor[] {
