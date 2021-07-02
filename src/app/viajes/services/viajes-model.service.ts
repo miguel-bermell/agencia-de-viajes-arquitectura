@@ -37,16 +37,17 @@ export class ViajesModelService {
   constructor(private http: HttpClient) {}
 
   getViajes(): Observable<ViajesGridResult> {
-    // const headers = new HttpHeaders({
-    //   Pepito: `Mi nombre es pepito`,
-    // });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'No-Auth': 'True',
+    });
 
     let params = new HttpParams();
     params = params.set('page', 1);
     params = params.set('pageSize', 5);
 
     return this.http
-      .get<ViajesGridResult>(`${this.url}/viajes`, { params })
+      .get<ViajesGridResult>(`${this.url}/viajes`, { headers, params })
       .pipe(map((x) => new ViajesGridResult(x)));
 
     // return [...this.viajes];

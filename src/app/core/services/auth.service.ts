@@ -24,7 +24,11 @@ export class AuthService {
 
   get user(): Usuario | null {
     const bearer = localStorage.getItem(this.APP_USER);
-    return bearer ? new Usuario(bearer) : null;
+    return bearer ? new Usuario(JSON.parse(bearer)) : null;
+  }
+
+  hasUserRole(role: string): boolean {
+    return this.user ? this.user.role === role : false;
   }
 
   storeUser(usuario: Usuario) {

@@ -28,10 +28,14 @@ export class ClientesService {
   // ];
 
   constructor(private http: HttpClient, private authService: AuthService) {}
-
   private headers = new HttpHeaders({
     Authorization: `bearer ${this.authService.bearer}`,
   });
+  // private headers = new HttpHeaders({
+  //   'Content-Type': 'application/json',
+  //   Authorization: `bearer ${this.authService.bearer}`,
+  //   'No-Auth': 'True',
+  // });
 
   getAll(): Observable<ClienteList[]> {
     return this.http

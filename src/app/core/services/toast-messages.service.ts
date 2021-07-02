@@ -17,7 +17,7 @@ export class ToastMessagesService {
   showError(text: string): void {
     this.toast.error(text, {
       position: 'bottom-center',
-      duration: 3000,
+      autoClose: false,
       dismissible: true,
     });
   }
